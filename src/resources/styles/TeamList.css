@@ -1,0 +1,74 @@
+.team-card-header {
+    background-color: #6f42c1;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1.25rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.team-card-header h2 {
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+}
+
+.team-card-header h2 .bi {
+    margin-right: 0.5rem;
+}
+
+.create-team-btn {
+    background-color: white;
+    color: #6f42c1;
+    font-size: 0.875rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.25rem;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.create-team-btn:hover {
+    background-color: #f3e9fd;
+    color: #5a32a3;
+    text-decoration: none;
+}
+
+.create-team-btn .bi {
+    font-size: 1.1rem;
+}
+
+.team-link {
+    font-weight: 600;
+    color: darkblue;
+    text-decoration: none;
+}
+
+.team-link:hover {
+    text-decoration: underline;
+}
+
+.placeholder-text {
+    font-style: italic;
+    color: #6c757d;
+}
+
+.alert-info-center {
+    text-align: center;
+    margin-bottom: 0;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.alert-info-center .bi {
+    font-size: 1.25rem;
+}

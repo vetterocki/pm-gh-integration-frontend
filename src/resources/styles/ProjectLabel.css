@@ -1,0 +1,92 @@
+.project-label {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 999px;
+    margin: 6px 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    white-space: nowrap;
+    user-select: none;
+    transition: box-shadow 0.3s ease, transform 0.15s ease;
+}
+
+.project-label:hover,
+.project-label:focus-visible {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    outline: none;
+    transform: translateY(-2px);
+}
+
+.project-label:focus {
+    outline: 2px solid #4d90fe;
+    outline-offset: 2px;
+}
+
+.icon {
+    font-size: 14px;
+    margin-right: 6px; /* добавил небольшой отступ справа */
+}
+
+.tooltip-popup {
+    position: fixed; /* changed from absolute */
+    /* убираем bottom */
+    top: auto;
+    bottom: auto;
+    background-color: #fff;
+    color: #333;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    width: 70vw;
+    max-width: 700px;
+    min-width: 300px;
+    max-height: 240px;
+    box-sizing: border-box;
+    white-space: pre-wrap;
+    word-break: break-word;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    pointer-events: auto;
+    user-select: text;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: opacity 0.3s ease;
+}
+
+.tooltip-text {
+    flex: 1;
+    line-height: 1.4; /* чуть лучше читается */
+}
+
+.tooltip-delete-btn {
+    background: transparent;
+    border: none;
+    color: #d32f2f;
+    font-weight: bold;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 2px 8px;
+    border-radius: 4px;
+    transition: background-color 0.25s ease, color 0.25s ease;
+    line-height: 1;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tooltip-delete-btn:hover,
+.tooltip-delete-btn:focus-visible {
+    background-color: rgba(211, 47, 47, 0.15);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.3);
+}

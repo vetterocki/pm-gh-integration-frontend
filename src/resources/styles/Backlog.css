@@ -1,0 +1,30 @@
+.backlog-container {
+    padding: 24px;
+    overflow-y: auto;
+    max-height: 100vh;
+    background-color: #f4f5f7;
+}
+
+.backlog-loading,
+.backlog-error,
+.backlog-empty {
+    color: #6b778c;
+    font-style: italic;
+    padding: 12px;
+}
+
+.ticket-card {
+    background-color: #fff;
+    border: 1px solid #dfe1e6;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    transition: box-shadow 0.2s ease, transform 0.1s ease;
+}
+
+.ticket-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}

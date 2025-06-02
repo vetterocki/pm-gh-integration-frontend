@@ -1,0 +1,53 @@
+.ticket-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* vertical center */
+    padding: 1rem 1.5rem;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+}
+
+.header-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* vertical center */
+}
+
+.header-right {
+    display: flex;
+    align-items: center; /* vertical center */
+    gap: 0.75rem;
+}
+
+.ticket-status-badge {
+    border: 2px solid;
+    border-radius: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+    min-width: 90px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.created-at-text {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    font-size: 0.85rem;
+    color: #6c757d; /* muted text */
+}
+
+.ticket-description,
+.ticket-github-description {
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.editable-field:hover {
+    background-color: #f8f9fa;
+}
+
+
+

@@ -1,0 +1,113 @@
+/* ProjectList.css */
+
+.project-list-container {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: center;
+}
+
+.project-card {
+    width: 80%;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.project-card-header {
+    background-color: #6f42c1; /* Фиолетовый */
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1.25rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.project-card-header h2 {
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+}
+
+.project-card-header h2 .bi {
+    margin-right: 0.5rem;
+}
+
+.create-project-btn {
+    background-color: white;
+    color: #6f42c1;
+    font-size: 0.875rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.25rem;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.create-project-btn:hover {
+    background-color: #f3e9fd;
+    color: #5a32a3;
+    text-decoration: none;
+}
+
+.create-project-btn .bi {
+    font-size: 1.1rem;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.table-custom {
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 0;
+}
+
+.table-custom thead {
+    background-color: #f8f9fa;
+}
+
+.table-custom th,
+.table-custom td {
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    vertical-align: middle;
+}
+
+.table-custom tbody tr:hover {
+    background-color: #f1f3f5;
+}
+
+.project-link {
+    font-weight: 600;
+    color: darkblue;
+    text-decoration: none;
+}
+
+.project-link:hover {
+    text-decoration: underline;
+}
+
+.placeholder-text {
+    font-style: italic;
+    color: #6c757d;
+}
+
+.alert-info-center {
+    text-align: center;
+    margin-bottom: 0;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.alert-info-center .bi {
+    font-size: 1.25rem;
+}

@@ -1,0 +1,331 @@
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { projectService, teamService, teamMemberService } from '../../../../_common/application/service';
+import LoadingSpinner from '../../../../_common/application/page/LoadingSpinner';
+import useForm from '../../../../_common/useForm';
+
+const ProjectForm = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const isEditMode = !!id;
+
+  const [loading, setLoading] = useState(isEditMode);
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [project, setProject] = useState(null);
+  const [error, setError] = useState(null);
+
+  const initialValues = {
+    fullName: '',
+    key: '',
+    teamName: '',
+    projectOwnerName: ''
+  };
+
+  const { values, errors, handleChange, resetForm, setFieldValue } = useForm(initialValues);
+
+  // Suggestions for teamName and projectOwnerName
+  const [teamSuggestions, setTeamSuggestions] = useState([]);
+  const [showTeamSuggestions, setShowTeamSuggestions] = useState(false);
+  const [allTeams, setAllTeams] = useState([]);
+
+  const [ownerSuggestions, setOwnerSuggestions] = useState([]);
+  const [showOwnerSuggestions, setShowOwnerSuggestions] = useState(false);
+  const [allMembers, setAllMembers] = useState([]);
+
+  useEffect(() => {
+    if (isEditMode) {
+      loadProject();
+    }
+  }, [id]);
+
+  useEffect(() => {
+    // Load all teams and members
+    const loadTeams = async () => {
+      try {
+        const teams = await teamService.getAllTeams();
+        setAllTeams(teams);
+      } catch (err) {
+        console.error('Failed to load teams:', err);
+      }
+    };
+
+    const loadMembers = async () => {
+      try {
+        const members = await teamMemberService.getAllTeamMembers();
+        setAllMembers(members);
+      } catch (err) {
+        console.error('Failed to load team members:', err);
+      }
+    };
+
+    loadTeams();
+    loadMembers();
+  }, []);
+
+  const loadProject = async () => {
+    try {
+      setLoading(true);
+      // Replace with real API call to get project by ID
+      const project = await projectService.getProjectById(id)
+
+      setProject(project);
+      Object.keys(project).forEach((key) => {
+        if (key in initialValues) {
+          setFieldValue(key, project[key]);
+        }
+      });
+
+      resetForm({
+        fullName: project.fullName.trim(),
+        key: project.key.trim(),
+        teamName: project.teamName.trim(),
+        projectOwnerName: project.projectOwnerName.trim()
+      });
+    } catch (err) {
+      setError('Failed to load project. Please try again.');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handle teamName input change with suggestions
+  const handleTeamInputChange = (e) => {
+    const inputValue = e.target.value;
+    handleChange(e);
+
+    if (inputValue.length > 0) {
+      const filtered = allTeams.filter((team) =>
+          team.name.toLowerCase().includes(inputValue.toLowerCase())
+      );
+      setTeamSuggestions(filtered);
+      setShowTeamSuggestions(true);
+    } else {
+      setTeamSuggestions([]);
+      setShowTeamSuggestions(false);
+    }
+  };
+
+  const handleSelectTeamSuggestion = (team) => {
+    setFieldValue('teamName', team.name);
+    setShowTeamSuggestions(false);
+  };
+
+  // Handle projectOwnerName input change with suggestions
+  const handleOwnerInputChange = (e) => {
+    const inputValue = e.target.value;
+    handleChange(e);
+
+    if (inputValue.length > 0) {
+      const filtered = allMembers.filter((member) =>
+          `${member.firstName} ${member.lastName}`.toLowerCase().includes(inputValue.toLowerCase())
+      );
+      setOwnerSuggestions(filtered);
+      setShowOwnerSuggestions(true);
+    } else {
+      setOwnerSuggestions([]);
+      setShowOwnerSuggestions(false);
+    }
+  };
+
+  const handleSelectOwnerSuggestion = (member) => {
+    const fullName = `${member.firstName} ${member.lastName}`;
+    setFieldValue('projectOwnerName', fullName);
+    setShowOwnerSuggestions(false);
+  };
+
+  const validateForm = () => {
+    let isValid = true;
+    const newErrors = {};
+
+    if (!values.fullName.trim()) {
+      newErrors.fullName = 'Project name is required';
+      isValid = false;
+    }
+
+    if (!values.key.trim()) {
+      newErrors.key = 'Project key is required';
+      isValid = false;
+    }
+
+    if (!values.teamName.trim()) {
+      newErrors.teamName = 'Team name is required';
+      isValid = false;
+    }
+
+    if (!values.projectOwnerName.trim()) {
+      newErrors.projectOwnerName = 'Project owner name is required';
+      isValid = false;
+    }
+
+    return { isValid, errors: newErrors };
+  };
+
+  const prepareFormData = () => {
+    return {
+      fullName: values.fullName.trim(),
+      key: values.key.trim(),
+      teamName: values.teamName.trim(),
+      projectOwnerName: values.projectOwnerName.trim()
+    };
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const { isValid, errors: validationErrors } = validateForm();
+
+    if (!isValid) {
+      Object.keys(validationErrors).forEach((key) => {
+        setFieldValue(key, validationErrors[key]);
+      });
+      return;
+    }
+
+    try {
+      setSubmitLoading(true);
+      setError(null);
+
+      const formData = prepareFormData();
+
+      let result
+      if (isEditMode) {
+        await projectService.updateProject(id, formData);
+      } else {
+        await projectService.createProject(formData);
+      }
+
+      navigate(`/projects`);
+    } catch (err) {
+      setError(`Failed to ${isEditMode ? 'update' : 'create'} project. Please try again.`);
+      console.error(err);
+    } finally {
+      setSubmitLoading(false);
+    }
+  };
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
+  return (
+      <div className="container mt-4">
+        <h1>{isEditMode ? 'Edit Project' : 'Create New Project'}</h1>
+        <form onSubmit={handleSubmit} className="mt-4" autoComplete="off">
+          <div className="mb-3">
+            <label htmlFor="fullName" className="form-label">
+              Project Name*
+            </label>
+            <input
+                type="text"
+                className={`form-control ${errors.fullName ? 'is-invalid' : ''}`}
+                id="fullName"
+                name="fullName"
+                value={values.fullName}
+                onChange={handleChange}
+                required
+            />
+            {errors.fullName && <div className="invalid-feedback">{errors.fullName}</div>}
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="key" className="form-label">
+              Project Key*
+            </label>
+            <input
+                type="text"
+                className={`form-control ${errors.key ? 'is-invalid' : ''}`}
+                id="key"
+                name="key"
+                value={values.key}
+                onChange={handleChange}
+                placeholder="e.g., PROJ"
+                required
+            />
+            {errors.key && <div className="invalid-feedback">{errors.key}</div>}
+            <small className="form-text text-muted">
+              A short identifier for your project (e.g., PROJ, ABC)
+            </small>
+          </div>
+
+          <div className="mb-3 position-relative">
+            <label htmlFor="teamName" className="form-label">
+              Team Name*
+            </label>
+            <input
+                type="text"
+                className={`form-control ${errors.teamName ? 'is-invalid' : ''}`}
+                id="teamName"
+                name="teamName"
+                value={values.teamName}
+                onChange={handleTeamInputChange}
+                required
+                autoComplete="off"
+            />
+            {errors.teamName && <div className="invalid-feedback">{errors.teamName}</div>}
+            {showTeamSuggestions && teamSuggestions.length > 0 && (
+                <ul
+                    className="list-group suggestion-dropdown"
+                    style={{ position: 'absolute', zIndex: 1000, width: '100%' }}
+                >
+                  {teamSuggestions.map((team) => (
+                      <li
+                          key={team.id}
+                          className="list-group-item list-group-item-action"
+                          onClick={() => handleSelectTeamSuggestion(team)}
+                          style={{ cursor: 'pointer' }}
+                      >
+                        {team.name}
+                      </li>
+                  ))}
+                </ul>
+            )}
+          </div>
+
+          <div className="mb-3 position-relative">
+            <label htmlFor="projectOwnerName" className="form-label">
+              Project Owner Name*
+            </label>
+            <input
+                type="text"
+                className={`form-control ${errors.projectOwnerName ? 'is-invalid' : ''}`}
+                id="projectOwnerName"
+                name="projectOwnerName"
+                value={values.projectOwnerName}
+                onChange={handleOwnerInputChange}
+                required
+                autoComplete="off"
+            />
+            {errors.projectOwnerName && <div className="invalid-feedback">{errors.projectOwnerName}</div>}
+            {showOwnerSuggestions && ownerSuggestions.length > 0 && (
+                <ul
+                    className="list-group suggestion-dropdown"
+                    style={{ position: 'absolute', zIndex: 1000, width: '100%' }}
+                >
+                  {ownerSuggestions.map((member) => (
+                      <li
+                          key={member.id}
+                          className="list-group-item list-group-item-action"
+                          onClick={() => handleSelectOwnerSuggestion(member)}
+                          style={{ cursor: 'pointer' }}
+                      >
+                        {member.firstName} {member.lastName}
+                      </li>
+                  ))}
+                </ul>
+            )}
+          </div>
+
+          <button
+              type="submit"
+              className="btn btn-primary"
+              disabled={submitLoading}
+          >
+            {submitLoading ? 'Saving...' : (isEditMode ? 'Update Project' : 'Create Project')}
+          </button>
+        </form>
+      </div>
+  );
+};
+
+export default ProjectForm;
