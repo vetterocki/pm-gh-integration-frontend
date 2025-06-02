@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { projectService } from '../../../../_common/application/service';
+import React, {useEffect, useState} from 'react';
+import {Link} from 'react-router-dom';
+import {projectService} from '../../../../_common/application/service';
 import LoadingSpinner from '../../../../_common/application/page/LoadingSpinner';
-import Alert from '../../../../_common/application/page/Alert';
 import '../../../../resources/styles/ProjectList.css';
 
 const ProjectList = () => {

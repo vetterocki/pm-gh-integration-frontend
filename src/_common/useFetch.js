@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import {useCallback, useEffect, useState} from 'react';
 
 const useFetch = (fetchFn, dependencies = [], immediate = true) => {
   const [data, setData] = useState(null);

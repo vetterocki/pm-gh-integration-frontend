@@ -1,8 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
-import {ticketService, teamMemberService, labelService} from '../../../../_common/application/service';
+import {labelService, teamMemberService, ticketService} from '../../../../_common/application/service';
 import LoadingSpinner from '../../../../_common/application/page/LoadingSpinner';
-import Alert from '../../../../_common/application/page/Alert';
 import useForm from '../../../../_common/useForm';
 import "../../../../resources/styles/TicketForm.css";
 

@@ -1,8 +1,7 @@
-import React, {useState, useEffect} from 'react';
-import {useNavigate, useParams, useLocation} from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {teamMemberService, teamService} from '../../../../_common/application/service';
 import LoadingSpinner from '../../../../_common/application/page/LoadingSpinner';
-import Alert from '../../../../_common/application/page/Alert';
 import useForm from '../../../../_common/useForm';
 
 import '../../../../resources/styles/TeamMemberForm.css';

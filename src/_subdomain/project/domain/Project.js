@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react';
-import {useParams, Link, useNavigate} from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 
-import {projectService, projectBoardService, ticketService} from '../../../_common/application/service';
+import {projectBoardService, projectService, ticketService} from '../../../_common/application/service';
 import LoadingSpinner from '../../../_common/application/page/LoadingSpinner';
 
 import ProjectBoardColumn from '../../project-board/application/page/ProjectBoardColumn';
@@ -9,7 +9,7 @@ import ProjectHeader from '../application/page/ProjectHeader';
 import ProjectSidebar from '../application/page/ProjectSidebar';
 import ProjectBoardList from '../../project-board/application/page/ProjectBoardList';
 import ProjectBoardBacklog from '../../project-board/domain/ProjectBoardBacklog';
-import {mapApiTicketToUiTicket, filterTicketsByText} from '../../ticket/application/service/ticketMappers';
+import {filterTicketsByText, mapApiTicketToUiTicket} from '../../ticket/application/service/ticketMappers';
 
 import "../../../resources/styles/ProjectDetail.css";
 import ProjectLabelsList from "../../label/application/page/ProjectLabelsList";

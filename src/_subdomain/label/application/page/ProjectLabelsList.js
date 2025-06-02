@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { ChromePicker } from 'react-color';
+import React, {useState} from 'react';
+import {ChromePicker} from 'react-color';
 import ProjectLabel from '../../domain/ProjectLabel';
-import { labelService } from '../../../../_common/application/service';
+import {labelService} from '../../../../_common/application/service';
 
 const LabelCreator = ({ project, onLabelCreated }) => {
     const [name, setName] = useState('');

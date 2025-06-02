@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
-import { teamService, teamMemberService } from '../../../_common/application/service';
+import React, {useEffect, useState} from 'react';
+import {Link, useNavigate, useParams} from 'react-router-dom';
+import {teamMemberService, teamService} from '../../../_common/application/service';
 import LoadingSpinner from '../../../_common/application/page/LoadingSpinner';
-import Alert from '../../../_common/application/page/Alert';
 import "../../../resources/styles/TeamDetail.css"
 
 const Team = () => {

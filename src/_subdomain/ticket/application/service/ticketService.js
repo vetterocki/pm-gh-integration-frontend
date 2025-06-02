@@ -1,4 +1,4 @@
- import api from '../../../../_common/application/service/api';
+import api from '../../../../_common/application/service/api';
 
 const ticketService = {
   // Get tickets for a project board grouped by status

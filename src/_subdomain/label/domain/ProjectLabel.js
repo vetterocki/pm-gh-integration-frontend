@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import ReactDOM from 'react-dom';
 import '../../../resources/styles/ProjectLabel.css';
 

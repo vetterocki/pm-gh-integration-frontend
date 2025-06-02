@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import ticketService from '../../ticket/application/service/ticketService';
 import Ticket from '../../ticket/domain/Ticket';
 import TicketModal from '../../ticket/domain/TicketModal'; // import modal
-import { filterTicketsByTextList, mapApiTicketToUiTicket } from '../../ticket/application/service/ticketMappers';
+import {filterTicketsByTextList, mapApiTicketToUiTicket} from '../../ticket/application/service/ticketMappers';
 import '../../../resources/styles/Backlog.css';
 
 const ProjectBoardBacklog = ({ projectBoardId, filterText }) => {

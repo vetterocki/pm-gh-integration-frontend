@@ -1,5 +1,5 @@
 import React from 'react';
-import { getPriorityClass } from '../application/service/ticketMappers';
+import {getPriorityClass} from '../application/service/ticketMappers';
 
 const Ticket = ({ ticket, style, description, ghDescription, onClick }) => (
     <div className="ticket-card" style={style} onClick={onClick}>
