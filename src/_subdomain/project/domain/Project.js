@@ -30,7 +30,7 @@ const Project = () => {
     const [error, setError] = useState(null);
     const [viewMode, setViewMode] = useState('board');
     const [filterText, setFilterText] = useState('');
-    const [selectedMenu, setSelectedMenu] = useState('boards'); // default 'boards'
+    const [selectedMenu, setSelectedMenu] = useState('boards');
     const [selectedTicket, setSelectedTicket] = useState(null);
 
 
@@ -49,7 +49,6 @@ const Project = () => {
             try {
                 await projectBoardService.deleteProjectBoard(selectedBoard.id);
 
-                // After deletion, remove the board from state and select another board if any
                 const updatedBoards = boards.filter(board => board.id !== selectedBoard.id);
                 setBoards(updatedBoards);
 
@@ -245,7 +244,7 @@ const Project = () => {
                                         <button
                                             className="btn btn-outline-danger"
                                             onClick={handleDeleteBoard}
-                                            disabled={!selectedBoard} // disable if no board selected
+                                            disabled={!selectedBoard}
                                             title={selectedBoard ? `Delete board: ${selectedBoard.name}` : "No board selected"}
                                         >
                                             <i className="bi bi-trash"></i> Delete Board

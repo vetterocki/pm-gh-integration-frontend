@@ -12,7 +12,6 @@ const TeamMemberForm = () => {
     const navigate = useNavigate();
     const isEditMode = !!id;
 
-    // Get teamId from query params if present
     const searchParams = new URLSearchParams(location.search);
     const teamIdFromQuery = searchParams.get('teamId');
 
@@ -39,7 +38,6 @@ const TeamMemberForm = () => {
         if (isEditMode) {
             loadTeamMember();
         } else {
-            // In create mode, reset to initialValues (especially if params change)
             resetForm(initialValues);
         }
     }, [id]);

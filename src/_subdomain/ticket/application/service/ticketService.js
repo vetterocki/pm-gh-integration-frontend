@@ -1,8 +1,6 @@
 import api from '../../../../_common/application/service/api';
 
 const ticketService = {
-  // Get tickets for a project board grouped by status
-  
   getTicketsByBoardIdGroupedByStatus: async (projectBoardId) => {
     try {
       const response = await api.get(`/tickets/project-board/${projectBoardId}/grouped-by-status`);

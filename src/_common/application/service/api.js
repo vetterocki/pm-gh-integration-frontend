@@ -1,8 +1,6 @@
-// api.js
 import axios from 'axios';
 import {toast} from 'react-toastify';
 
-// Base API configuration
 const api = axios.create({
     baseURL: '',
     headers: {

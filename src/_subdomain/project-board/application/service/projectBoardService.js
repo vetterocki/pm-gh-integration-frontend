@@ -1,14 +1,12 @@
 import api from '../../../../_common/application/service/api';
 
 const projectBoardService = {
-  // Get all boards for a project
   getProjectBoards: async (projectId) => {
     try {
       const response = await api.get(`/boards?projectId=${projectId}`);
       return response.data;
     } catch (error) {
       console.error(`Error fetching boards for project ${projectId}:`, error);
-      // Return empty array on error to avoid cascading failures
       return [];
     }
   },

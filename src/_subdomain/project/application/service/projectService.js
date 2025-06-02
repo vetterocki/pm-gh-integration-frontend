@@ -1,11 +1,9 @@
 import api from '../../../../_common/application/service/api';
 
 const projectService = {
-  // Get all projects
   getAllProjects: async () => {
     try {
       const response = await api.get('/projects/all');      
-      // Check if response has data property
       if (!response.data) {
         console.error('Response missing data property:', response);
         return [];
@@ -14,12 +12,10 @@ const projectService = {
       return response.data;
     } catch (error) {
       console.error('Error fetching all projects:', error);
-      // Return empty array on error to avoid cascading failures
       return [];
     }
   },
   
-  // Create a new project
   createProject: async (project) => {
     try {
       const response = await api.post('/projects', project);
@@ -30,7 +26,6 @@ const projectService = {
     }
   },
   
-  // Get a project by name
   getProjectByName: async (projectName) => {
     try {
       const response = await api.get(`/projects?projectName=${projectName}`);
@@ -51,7 +46,6 @@ const projectService = {
     }
   },
   
-  // Update a project
   updateProject: async (id, projectUpdateData) => {
     try {
       const response = await api.patch(`/projects/${id}`, projectUpdateData);
@@ -62,7 +56,6 @@ const projectService = {
     }
   },
   
-  // Delete a project
   deleteProject: async (id) => {
     try {
       await api.delete(`/projects/${id}`);

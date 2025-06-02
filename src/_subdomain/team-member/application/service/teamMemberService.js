@@ -1,7 +1,6 @@
 import api from '../../../../_common/application/service/api';
 
 const teamMemberService = {
-  // Create a new team member
   createTeamMember: async (teamMember) => {
     try {
       const response = await api.post('/members', teamMember);
@@ -12,7 +11,6 @@ const teamMemberService = {
     }
   },
   
-  // Get a team member by ID
   getTeamMemberById: async (id) => {
     try {
       const response = await api.get(`/members/${id}`);
@@ -23,7 +21,6 @@ const teamMemberService = {
     }
   },
   
-  // Find a team member by name using the backend endpoint
   findByName: async (name) => {
     try {
       if (!name) return null;
@@ -42,7 +39,6 @@ const teamMemberService = {
     }
   },
   
-  // Get all team members - stub implementation
   getAllTeamMembers: async () => {
     try {
       const response = await api.get(`/members/all`);
@@ -52,7 +48,6 @@ const teamMemberService = {
     }
   },
   
-  // Get all team members by team ID
   getTeamMembersByTeamId: async (teamId) => {
     try {
       const response = await api.get(`/members/team/${teamId}`);
@@ -63,7 +58,6 @@ const teamMemberService = {
     }
   },
   
-  // Update a team member
   updateTeamMember: async (id, teamMemberUpdateData) => {
     try {
       console.log(teamMemberUpdateData);
@@ -75,7 +69,6 @@ const teamMemberService = {
     }
   },
   
-  // Delete a team member
   deleteTeamMember: async (id) => {
     try {
       await api.delete(`/members/${id}`);

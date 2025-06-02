@@ -5,7 +5,7 @@ const authService = {
         try {
             const response = await api.post('/auth/login', { email, password });
             sessionStorage.setItem('token', response.data.token);
-            sessionStorage.setItem('currentUser', JSON.stringify(response.data.teamMember)); // <-- FIXED
+            sessionStorage.setItem('currentUser', JSON.stringify(response.data.teamMember));
             return response.data;
         } catch (error) {
             console.error('Login failed:', error);

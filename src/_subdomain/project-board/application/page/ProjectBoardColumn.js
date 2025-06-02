@@ -1,5 +1,3 @@
-// components/Project/ProjectBoardColumn.jsx
-
 import React from 'react';
 import Ticket from '../../../ticket/domain/Ticket';
 

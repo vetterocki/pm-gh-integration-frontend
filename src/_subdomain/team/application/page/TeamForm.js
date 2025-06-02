@@ -21,7 +21,6 @@ const TeamForm = () => {
         teamMemberIds: []
     };
 
-    // Destructure resetForm to accept optional newValues parameter
     const { values, errors, handleChange, resetForm, setFieldValue } = useForm(initialValues);
 
     useEffect(() => {
@@ -48,7 +47,7 @@ const TeamForm = () => {
 
     const handleManagerInputChange = (e) => {
         const inputValue = e.target.value;
-        handleChange(e); // this updates the form value too
+        handleChange(e);
         if (inputValue.length > 0) {
             const filtered = allMembers.filter(member =>
                 `${member.firstName} ${member.lastName}`.toLowerCase().includes(inputValue.toLowerCase())
@@ -89,7 +88,6 @@ const TeamForm = () => {
                     }
                 }
 
-                // Use resetForm to set the entire form values at once
                 resetForm({
                     name: team.name || '',
                     projectManagerName: projectManagerName,

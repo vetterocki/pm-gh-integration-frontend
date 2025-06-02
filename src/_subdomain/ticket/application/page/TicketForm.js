@@ -22,7 +22,6 @@ const TicketForm = () => {
 
     const location = useLocation();
 
-    // Parse query params
     const searchParams = new URLSearchParams(location.search);
     const projectId = searchParams.get('projectId');
     const projectBoardId = searchParams.get('projectBoardId');
@@ -86,7 +85,6 @@ const TicketForm = () => {
             newErrors.summary = 'Summary is required';
             isValid = false;
         }
-        // priority and status can be optional or default
 
         return {isValid, errors: newErrors};
     };
@@ -97,8 +95,8 @@ const TicketForm = () => {
         assigneeId: values.assigneeId,
         priority: values.priority,
         labelIds: values.labelIds,
-        projectId,        // from URL param
-        projectBoardId,   // from URL param
+        projectId,
+        projectBoardId,
     });
 
 
@@ -119,7 +117,6 @@ const TicketForm = () => {
             const formData = prepareFormData();
             console.log(formData)
             await ticketService.createTicket(formData);
-            // Redirect to ticket list or project page as appropriate
             navigate('/tickets');
         } catch (err) {
             setError('Failed to create ticket. Please try again.');

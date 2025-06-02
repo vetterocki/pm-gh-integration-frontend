@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import ticketService from '../../ticket/application/service/ticketService';
 import Ticket from '../../ticket/domain/Ticket';
-import TicketModal from '../../ticket/domain/TicketModal'; // import modal
+import TicketModal from '../../ticket/domain/TicketModal';
 import {filterTicketsByTextList, mapApiTicketToUiTicket} from '../../ticket/application/service/ticketMappers';
 import '../../../resources/styles/Backlog.css';
 
@@ -9,7 +9,7 @@ const ProjectBoardBacklog = ({ projectBoardId, filterText }) => {
     const [tickets, setTickets] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [selectedTicket, setSelectedTicket] = useState(null); // track selected ticket
+    const [selectedTicket, setSelectedTicket] = useState(null);
 
     useEffect(() => {
         const loadTickets = async () => {
@@ -43,7 +43,6 @@ const ProjectBoardBacklog = ({ projectBoardId, filterText }) => {
             try {
                 await ticketService.deleteTicket(ticketId);
                 setSelectedTicket(null);
-                // Refresh tickets after delete
                 const updatedTickets = tickets.filter(t => t.id !== ticketId);
                 setTickets(updatedTickets);
             } catch (err) {

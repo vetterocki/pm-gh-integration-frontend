@@ -5,17 +5,14 @@ import Navbar from './_common/application/page/Navbar';
 import logo from './resources/static/project-management.png'
 
 
-// Project Pages
 import ProjectList from './_subdomain/project/application/page/ProjectList';
 import ProjectForm from './_subdomain/project/application/page/ProjectForm';
 import Project from './_subdomain/project/domain/Project';
 
-// Team Pages
 import TeamList from './_subdomain/team/application/page/TeamList';
 import TeamForm from './_subdomain/team/application/page/TeamForm';
 import Team from './_subdomain/team/domain/Team';
 
-// Team Member Pages
 import TeamMemberForm from './_subdomain/team-member/application/page/TeamMemberForm';
 import TeamMember from './_subdomain/team-member/domain/TeamMember';
 import TicketForm from "./_subdomain/ticket/application/page/TicketForm";
@@ -78,7 +75,6 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Home/>}/>
 
-                    {/* Project Routes */}
                     <Route path="/projects" element={<ProjectList/>}/>
                     <Route path="/projects/new" element={<ProjectForm/>}/>
                     <Route path="/projects/edit/:id" element={<ProjectForm/>}/>
@@ -86,14 +82,12 @@ function App() {
 
                     <Route path="/tickets/new" element={<TicketForm/>}/>
 
-                    {/* Team Routes */}
                     <Route path="/teams" element={<TeamList/>}/>
                     <Route path="/teams/new" element={<TeamForm/>}/>
                     <Route path="/teams/edit/:id" element={<TeamForm/>}/>
                     <Route path="/teams/:id" element={<Team/>}/>
                     <Route path="/teams/name/:teamName" element={<Team/>}/>
 
-                    {/* Team Member Routes - no direct link in navbar, accessed through teams */}
                     <Route path="/members/new" element={<TeamMemberForm/>}/>
                     <Route path="/members/edit/:id" element={<TeamMemberForm/>}/>
                     <Route path="/members/:id" element={<TeamMember/>}/>
@@ -101,7 +95,6 @@ function App() {
 
                     <Route path="/auth/signin" element={<SignIn/>}/>
 
-                    {/* 404 Route */}
                     <Route path="/404" element={<NotFound/>}/>
                     <Route path="*" element={<Navigate to="/404"/>}/>
                 </Routes>
@@ -116,7 +109,7 @@ function App() {
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover
-                theme="colored" // colored theme supports warning colors
+                theme="colored"
             />
         </>
     );

@@ -8,7 +8,6 @@ const useForm = (initialValues = {}) => {
     const { name, value } = e.target;
     setValues({ ...values, [name]: value });
 
-    // Clear error when field is modified
     if (errors[name]) {
       setErrors({ ...errors, [name]: null });
     }
@@ -17,13 +16,11 @@ const useForm = (initialValues = {}) => {
   const handleSelectChange = (name, value) => {
     setValues({ ...values, [name]: value });
 
-    // Clear error when field is modified
     if (errors[name]) {
       setErrors({ ...errors, [name]: null });
     }
   };
 
-  // <-- Updated resetForm to accept optional new values
   const resetForm = (newValues = initialValues) => {
     setValues(newValues);
     setErrors({});

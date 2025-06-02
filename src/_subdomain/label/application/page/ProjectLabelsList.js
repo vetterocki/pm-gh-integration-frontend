@@ -3,7 +3,7 @@ import {ChromePicker} from 'react-color';
 import ProjectLabel from '../../domain/ProjectLabel';
 import {labelService} from '../../../../_common/application/service';
 
-const LabelCreator = ({ project, onLabelCreated }) => {
+const LabelCreator = ({project, onLabelCreated}) => {
     const [name, setName] = useState('');
     const [color, setColor] = useState('#36b37e');
     const [description, setDescription] = useState('');
@@ -41,14 +41,14 @@ const LabelCreator = ({ project, onLabelCreated }) => {
                 border: '1px solid #ddd',
                 borderRadius: 10,
                 backgroundColor: '#fafafa',
-                minWidth: 320,       // увеличена ширина
-                minHeight: 480,      // высота увеличена для комфорта
+                minWidth: 320,
+                minHeight: 480,
                 userSelect: 'none',
                 alignItems: 'center',
-                boxShadow: '0 4px 10px rgba(0,0,0,0.05)', // лёгкая тень для глубины
+                boxShadow: '0 4px 10px rgba(0,0,0,0.05)',
             }}
         >
-            <h4 style={{ margin: 0, alignSelf: 'flex-start', fontSize: 20, fontWeight: '600' }}>
+            <h4 style={{margin: 0, alignSelf: 'flex-start', fontSize: 20, fontWeight: '600'}}>
                 Create New Label
             </h4>
 
@@ -97,7 +97,7 @@ const LabelCreator = ({ project, onLabelCreated }) => {
                 placeholder="Description (optional)"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                rows={5} // чуть больше строк
+                rows={5}
                 style={{
                     padding: 12,
                     fontSize: 16,
@@ -135,7 +135,7 @@ const LabelCreator = ({ project, onLabelCreated }) => {
     );
 };
 
-const ProjectLabelsList = ({ labels: initialLabels = [], project }) => {
+const ProjectLabelsList = ({labels: initialLabels = [], project}) => {
     const [labels, setLabels] = React.useState(initialLabels);
 
     const handleLabelCreated = (newLabel) => {
@@ -186,21 +186,21 @@ const ProjectLabelsList = ({ labels: initialLabels = [], project }) => {
             >
                 {Object.entries(grouped).length > 0 ? (
                     Object.entries(grouped).map(([color, group]) => (
-                        <div key={color} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
+                        <div key={color} style={{display: 'flex', flexDirection: 'column', gap: 12}}>
+                            <div style={{display: 'flex', flexWrap: 'wrap', gap: 12}}>
                                 {group.map((label) => (
-                                    <ProjectLabel key={label.id} label={label} onDelete={handleDeleteLabel} />
+                                    <ProjectLabel key={label.id} label={label} onDelete={handleDeleteLabel}/>
                                 ))}
                             </div>
                         </div>
                     ))
                 ) : (
-                    <div style={{ color: '#999', fontStyle: 'italic' }}>No labels available.</div>
+                    <div style={{color: '#999', fontStyle: 'italic'}}>No labels available.</div>
                 )}
             </div>
 
             {/* Label Creator */}
-            <LabelCreator project={project} onLabelCreated={handleLabelCreated} />
+            <LabelCreator project={project} onLabelCreated={handleLabelCreated}/>
         </div>
     );
 };

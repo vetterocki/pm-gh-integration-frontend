@@ -1,7 +1,6 @@
 import api from '../../../../_common/application/service/api';
 
 const teamService = {
-  // Get all teams
   getAllTeams: async () => {
     try {
       const response = await api.get('/teams/all');
@@ -18,7 +17,6 @@ const teamService = {
     }
   },
   
-  // Find a team by name using the findByName endpoint
   findByName: async (teamName) => {
     try {
       if (!teamName) return null;
@@ -34,7 +32,6 @@ const teamService = {
     } catch (error) {
       console.error(`Error finding team by name '${teamName}':`, error);
       
-      // Try to fetch all teams and find by name as a fallback
       try {
         const allTeams = await teamService.getAllTeams();
         
@@ -52,17 +49,13 @@ const teamService = {
     }
   },
   
-  // For backward compatibility
   getTeamByName: async (teamName) => {
     return teamService.findByName(teamName);
   },
   
-  // Create a new team
   createTeam: async (team) => {
     try {
-      // Ensure team has projectManagerName field
       if (!team.projectManagerName && team.projectManagerId) {
-        // This is a fallback if someone tries to use the old format
         console.warn('Team data using old format with projectManagerId instead of projectManagerName');
       }
       
@@ -74,7 +67,6 @@ const teamService = {
     }
   },
   
-  // Get a team by ID
   getTeamById: async (id) => {
     try {
       const response = await api.get(`/teams/${id}`);
@@ -85,7 +77,6 @@ const teamService = {
     }
   },
   
-  // Update a team
   updateTeam: async (id, teamUpdateData) => {
     try {
       const response = await api.patch(`/teams/${id}`, teamUpdateData);
@@ -96,7 +87,6 @@ const teamService = {
     }
   },
   
-  // Delete a team
   deleteTeam: async (id) => {
     try {
       await api.delete(`/teams/${id}`);

@@ -23,7 +23,6 @@ const ProjectForm = () => {
 
   const { values, errors, handleChange, resetForm, setFieldValue } = useForm(initialValues);
 
-  // Suggestions for teamName and projectOwnerName
   const [teamSuggestions, setTeamSuggestions] = useState([]);
   const [showTeamSuggestions, setShowTeamSuggestions] = useState(false);
   const [allTeams, setAllTeams] = useState([]);
@@ -39,7 +38,6 @@ const ProjectForm = () => {
   }, [id]);
 
   useEffect(() => {
-    // Load all teams and members
     const loadTeams = async () => {
       try {
         const teams = await teamService.getAllTeams();
@@ -65,7 +63,6 @@ const ProjectForm = () => {
   const loadProject = async () => {
     try {
       setLoading(true);
-      // Replace with real API call to get project by ID
       const project = await projectService.getProjectById(id)
 
       setProject(project);
@@ -89,7 +86,6 @@ const ProjectForm = () => {
     }
   };
 
-  // Handle teamName input change with suggestions
   const handleTeamInputChange = (e) => {
     const inputValue = e.target.value;
     handleChange(e);
@@ -111,7 +107,6 @@ const ProjectForm = () => {
     setShowTeamSuggestions(false);
   };
 
-  // Handle projectOwnerName input change with suggestions
   const handleOwnerInputChange = (e) => {
     const inputValue = e.target.value;
     handleChange(e);
