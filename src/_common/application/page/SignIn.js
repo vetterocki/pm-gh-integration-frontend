@@ -6,7 +6,6 @@ import '../../../resources/styles/AuthForm.css'
 const SignIn = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -16,7 +15,7 @@ const SignIn = () => {
             navigate('/');
             window.location.reload()
         } catch (err) {
-            setError(err.message);
+            console.error(err);
         }
     };
 

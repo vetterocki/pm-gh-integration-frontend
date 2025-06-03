@@ -27,7 +27,6 @@ const Project = () => {
     const [labels, setLabels] = useState({});
     const [statuses, setStatuses] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const [viewMode, setViewMode] = useState('board');
     const [filterText, setFilterText] = useState('');
     const [selectedMenu, setSelectedMenu] = useState('boards');
@@ -58,8 +57,6 @@ const Project = () => {
                     setSelectedBoard(null);
                 }
             } catch (err) {
-                setError('Failed to delete board. Please try again.')
-                console.log(err.status)
                 console.warn(err);
             }
         }
@@ -70,7 +67,6 @@ const Project = () => {
         const loadProject = async () => {
             try {
                 setLoading(true);
-                setError(null);
 
                 const projectData = await projectService.getProjectById(id);
                 setProject(projectData);
@@ -88,7 +84,6 @@ const Project = () => {
                 setLoading(false);
             } catch (err) {
                 console.error('Error loading project:', err);
-                setError('Failed to load project data. Please try again.');
                 setLoading(false);
             }
         };
@@ -101,7 +96,6 @@ const Project = () => {
 
         const loadTickets = async (boardId) => {
             try {
-                setError(null);
                 const ticketsGroupedApi = await ticketService.getTicketsByBoardIdGroupedByStatus(boardId);
 
                 const ticketsGroupedUi = {};
@@ -128,7 +122,6 @@ const Project = () => {
                 setTickets(ticketsGroupedUi);
             } catch (err) {
                 console.error('Error loading tickets:', err);
-                setError('Failed to load tickets. Please try again.');
             }
         };
 
@@ -145,7 +138,6 @@ const Project = () => {
                 await projectService.deleteProject(id);
                 navigate('/projects/');
             } catch (err) {
-                setError('Failed to delete project. Please try again.');
                 console.error(err);
                 console.warn(err.status)
 
@@ -161,7 +153,6 @@ const Project = () => {
                 handleCloseModal()
                 window.location.reload()
             } catch (err) {
-                setError('Failed to delete ticket. Please try again.');
                 console.error(err);
             }
         }

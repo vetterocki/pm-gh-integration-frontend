@@ -7,7 +7,6 @@ import '../../../../resources/styles/TeamList.css';
 const TeamList = () => {
   const [teams, setTeams] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     loadData();
@@ -16,13 +15,11 @@ const TeamList = () => {
   const loadData = async () => {
     try {
       setLoading(true);
-      setError(null);
 
       const teamsData = await teamService.getAllTeams();
       setTeams(Array.isArray(teamsData) ? teamsData : []);
     } catch (err) {
       console.error('Error loading data:', err);
-      setError('Failed to load teams. Please try again.');
     } finally {
       setLoading(false);
     }

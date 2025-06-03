@@ -30,7 +30,6 @@ const TicketForm = () => {
 
     const [loading, setLoading] = useState(false);
     const [submitLoading, setSubmitLoading] = useState(false);
-    const [error, setError] = useState(null);
 
     const [, setAllMembers] = useState([]);
 
@@ -47,7 +46,6 @@ const TicketForm = () => {
                 const labels = await labelService.getAllLabels();
                 setAllLabels(labels);
             } catch (err) {
-                setError('Failed to load members or labels');
                 console.error(err);
             } finally {
                 setLoading(false);
@@ -112,14 +110,12 @@ const TicketForm = () => {
 
         try {
             setSubmitLoading(true);
-            setError(null);
 
             const formData = prepareFormData();
             console.log(formData)
             await ticketService.createTicket(formData);
             navigate('/tickets');
         } catch (err) {
-            setError('Failed to create ticket. Please try again.');
             console.error(err);
         } finally {
             setSubmitLoading(false);

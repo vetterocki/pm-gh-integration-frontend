@@ -17,7 +17,6 @@ const TeamMemberForm = () => {
 
     const [loading, setLoading] = useState(isEditMode);
     const [submitLoading, setSubmitLoading] = useState(false);
-    const [error, setError] = useState(null);
     const [teams, setTeams] = useState([]);
 
     const initialValues = {
@@ -70,7 +69,6 @@ const TeamMemberForm = () => {
                 });
             }
         } catch (err) {
-            setError('Failed to load team member details. Please try again.');
             console.error(err);
         } finally {
             setLoading(false);
@@ -139,7 +137,6 @@ const TeamMemberForm = () => {
 
         try {
             setSubmitLoading(true);
-            setError(null);
 
             const formData = prepareFormData();
 
@@ -151,7 +148,6 @@ const TeamMemberForm = () => {
 
             navigate(`/teams/${formData.teamId}`);
         } catch (err) {
-            setError(`Failed to ${isEditMode ? 'update' : 'create'} team member. Please try again.`);
             console.error(err);
         } finally {
             setSubmitLoading(false);

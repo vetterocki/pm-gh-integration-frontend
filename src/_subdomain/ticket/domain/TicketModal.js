@@ -23,7 +23,6 @@ const TicketModal = ({ticket, onClose, onAssignToggle, onDelete}) => {
     const [editedDescription, setEditedDescription] = useState(ticket.description || "");
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [isEditingDescription, setIsEditingDescription] = useState(false);
-    const [saving, setSaving] = useState(false);
 
     const currentUser = JSON.parse(sessionStorage.getItem('currentUser') || '{}');
     const currentUserEmail = currentUser.email || '';
@@ -101,14 +100,11 @@ const TicketModal = ({ticket, onClose, onAssignToggle, onDelete}) => {
                                             <button
                                                 className="btn btn-sm btn-primary me-2"
                                                 onClick={async () => {
-                                                    setSaving(true);
                                                     try {
                                                         await ticketService.updateTicket(currentTicket.id, {summary: editedTitle});
                                                         setIsEditingTitle(false);
                                                     } catch (err) {
                                                         console.error(err);
-                                                    } finally {
-                                                        setSaving(false);
                                                     }
                                                 }}
                                             >
@@ -147,14 +143,12 @@ const TicketModal = ({ticket, onClose, onAssignToggle, onDelete}) => {
                                             <button
                                                 className="btn btn-sm btn-primary me-2"
                                                 onClick={async () => {
-                                                    setSaving(true);
                                                     try {
                                                         await ticketService.updateTicket(currentTicket.id, {description: editedDescription});
                                                         setIsEditingDescription(false);
                                                     } catch (err) {
                                                         console.error(err);
                                                     } finally {
-                                                        setSaving(false);
                                                     }
                                                 }}
                                             >

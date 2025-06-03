@@ -7,7 +7,6 @@ import '../../../../resources/styles/ProjectList.css';
 const ProjectList = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     loadData();
@@ -16,12 +15,10 @@ const ProjectList = () => {
   const loadData = async () => {
     try {
       setLoading(true);
-      setError(null);
       const projectsData = await projectService.getAllProjects();
       setProjects(Array.isArray(projectsData) ? projectsData : []);
     } catch (err) {
       console.error('Error loading projects:', err);
-      setError('Failed to load projects. Please try again.');
     } finally {
       setLoading(false);
     }

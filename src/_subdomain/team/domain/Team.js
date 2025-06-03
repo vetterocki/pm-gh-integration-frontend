@@ -10,12 +10,10 @@ const Team = () => {
   const [team, setTeam] = useState(null);
   const [teamMembers, setTeamMembers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (!id && !teamName) {
       setLoading(false);
-      setError('No team identifier provided');
       return;
     }
     loadTeamDetails();
@@ -36,7 +34,6 @@ const Team = () => {
       }
 
       if (!teamData) {
-        setError('Team not found');
         setLoading(false);
         return;
       }
@@ -54,7 +51,6 @@ const Team = () => {
         }
       }
     } catch (err) {
-      setError('Failed to load team details. Please try again.');
       console.error(err);
     } finally {
       setLoading(false);
@@ -72,7 +68,6 @@ const Team = () => {
       setTeamMembers(prev => prev.filter(member => member.id !== memberId));
     } catch (err) {
       console.error('Error deleting team member:', err);
-      setError('Failed to remove team member. Please try again.');
     }
   };
 
@@ -83,7 +78,6 @@ const Team = () => {
         await teamService.deleteTeam(team.id);
         navigate('/teams');
       } catch (err) {
-        setError('Failed to delete team. Please try again.');
         console.error(err);
       }
     }

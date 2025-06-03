@@ -11,8 +11,6 @@ const ProjectForm = () => {
 
   const [loading, setLoading] = useState(isEditMode);
   const [submitLoading, setSubmitLoading] = useState(false);
-  const [project, setProject] = useState(null);
-  const [error, setError] = useState(null);
 
   const initialValues = {
     fullName: '',
@@ -65,7 +63,6 @@ const ProjectForm = () => {
       setLoading(true);
       const project = await projectService.getProjectById(id)
 
-      setProject(project);
       Object.keys(project).forEach((key) => {
         if (key in initialValues) {
           setFieldValue(key, project[key]);
@@ -79,7 +76,6 @@ const ProjectForm = () => {
         projectOwnerName: project.projectOwnerName.trim()
       });
     } catch (err) {
-      setError('Failed to load project. Please try again.');
       console.error(err);
     } finally {
       setLoading(false);
@@ -179,11 +175,9 @@ const ProjectForm = () => {
 
     try {
       setSubmitLoading(true);
-      setError(null);
 
       const formData = prepareFormData();
 
-      let result
       if (isEditMode) {
         await projectService.updateProject(id, formData);
       } else {
@@ -192,7 +186,6 @@ const ProjectForm = () => {
 
       navigate(`/projects`);
     } catch (err) {
-      setError(`Failed to ${isEditMode ? 'update' : 'create'} project. Please try again.`);
       console.error(err);
     } finally {
       setSubmitLoading(false);
