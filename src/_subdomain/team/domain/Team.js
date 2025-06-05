@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Link, useNavigate, useParams} from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {teamMemberService, teamService} from '../../../_common/application/service';
 import LoadingSpinner from '../../../_common/application/page/LoadingSpinner';
 import "../../../resources/styles/TeamDetail.css"
@@ -10,6 +11,7 @@ const Team = () => {
   const [team, setTeam] = useState(null);
   const [teamMembers, setTeamMembers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!id && !teamName) {
@@ -60,7 +62,7 @@ const Team = () => {
   const handleDeleteMember = async (memberId) => {
     if (!team?.id || !memberId) return;
 
-    const confirmed = window.confirm("Are you sure you want to remove this team member?");
+    const confirmed = window.confirm(t('teamMembers.deleteConfirm'));
     if (!confirmed) return;
 
     try {
@@ -73,7 +75,7 @@ const Team = () => {
 
   const handleDelete = async () => {
     if (!team?.id) return;
-    if (window.confirm('Are you sure you want to delete this team?')) {
+    if (window.confirm(t('teams.deleteConfirm'))) {
       try {
         await teamService.deleteTeam(team.id);
         navigate('/teams');
@@ -89,7 +91,7 @@ const Team = () => {
     return (
         <div className="container mt-4">
           <div className="alert alert-warning">
-            Team not found. <Link to="/teams" className="team-link">Back to teams</Link>
+            {t('teams.teamNotFound')} <Link to="/teams" className="team-link">{t('teams.backToTeams')}</Link>
           </div>
         </div>
     );
@@ -98,24 +100,24 @@ const Team = () => {
   return (
       <div className="container mt-4">
         <div className="d-flex justify-content-between align-items-center mb-4">
-          <h1 className="team-title">{team.name || "Unnamed Team"}</h1>
+          <h1 className="team-title">{team.name || t('teams.unnamedTeam')}</h1>
           <div>
             <Link to={`/teams/edit/${team.id}`} className="btn btn-warning me-2">
-              Edit
+              {t('common.edit')}
             </Link>
             <button onClick={handleDelete} className="btn btn-danger">
-              Delete
+              {t('common.delete')}
             </button>
           </div>
         </div>
 
         <div className="card mb-4">
           <div className="card-header">
-            <h5 className="mb-0">Team Details</h5>
+            <h5 className="mb-0">{t('teams.teamDetails')}</h5>
           </div>
           <div className="card-body">
             <div className="row mb-3">
-              <div className="col-md-3 fw-bold">Project Manager:</div>
+              <div className="col-md-3 fw-bold">{t('teams.projectManager')}:</div>
               <div className="col-md-9">
                 {team.projectManagerName ? (
                     <Link
@@ -125,7 +127,7 @@ const Team = () => {
                       {team.projectManagerName}
                     </Link>
                 ) : (
-                    <em className="placeholder-text">Not specified</em>
+                    <em className="placeholder-text">{t('common.notSpecified')}</em>
                 )}
               </div>
             </div>
@@ -134,9 +136,9 @@ const Team = () => {
 
         <div className="card mb-4">
           <div className="card-header d-flex justify-content-between align-items-center">
-            <h5 className="mb-0">Team Members</h5>
+            <h5 className="mb-0">{t('teams.teamMembers')}</h5>
             <Link to={`/members/new?teamId=${team.id}`} className="btn btn-sm btn-success">
-              Add Team Member
+              {t('teams.addTeamMember')}
             </Link>
           </div>
           <div className="card-body">
@@ -145,47 +147,25 @@ const Team = () => {
                   <table className="table table-striped align-middle">
                     <thead>
                     <tr>
-                      <th>Avatar</th>
-                      <th>Full Name</th>
-                      <th>Email</th>
-                      <th>Position</th>
-                      <th>GitHub account link</th>
+                      <th>{t('teamMembers.avatar')}</th>
+                      <th>{t('teamMembers.fullName')}</th>
+                      <th>{t('teamMembers.email')}</th>
+                      <th>{t('teamMembers.position')}</th>
+                      <th>{t('teamMembers.githubAccount')}</th>
                       <th></th>
                     </tr>
                     </thead>
                     <tbody>
                     {teamMembers.map(member => (
                         <tr key={member.id}>
-                          <td style={{ width: 60 }}>
-                            {member.avatarUrl ? (
+                          <td>
+                            {member.avatarUrl && (
                                 <img
                                     src={member.avatarUrl}
-                                    alt={`${member.firstName} ${member.lastName} avatar`}
-                                    style={{
-                                      width: 40,
-                                      height: 40,
-                                      borderRadius: '50%',
-                                      objectFit: 'cover',
-                                    }}
+                                    alt="Avatar preview"
+                                    className="avatar-preview-img"
+                                    style={{width: '40px', height: '40px', borderRadius: '50%'}}
                                 />
-                            ) : (
-                                <div
-                                    style={{
-                                      width: 40,
-                                      height: 40,
-                                      borderRadius: '50%',
-                                      backgroundColor: '#ccc',
-                                      display: 'flex',
-                                      alignItems: 'center',
-                                      justifyContent: 'center',
-                                      color: '#666',
-                                      fontSize: 14,
-                                      userSelect: 'none',
-                                    }}
-                                    title="No avatar"
-                                >
-                                  ?
-                                </div>
                             )}
                           </td>
                           <td>
@@ -195,8 +175,8 @@ const Team = () => {
                             <br />
                             <small className="text-muted">@{member.loginInGithub}</small>
                           </td>
-                          <td>{member.email || <em className="placeholder-text">Not specified</em>}</td>
-                          <td>{member.position || <em className="placeholder-text">Not specified</em>}</td>
+                          <td>{member.email || <em className="placeholder-text">{t('common.notSpecified')}</em>}</td>
+                          <td>{member.position || <em className="placeholder-text">{t('common.notSpecified')}</em>}</td>
                           <td>
                             {member.loginInGithub ? (
                                 <a
@@ -208,7 +188,7 @@ const Team = () => {
                                   {member.loginInGithub}
                                 </a>
                             ) : (
-                                <em className="placeholder-text">Not specified</em>
+                                <em className="placeholder-text">{t('common.notSpecified')}</em>
                             )}
                           </td>
                           <td>
@@ -216,7 +196,7 @@ const Team = () => {
                                 className="btn btn-sm btn-outline-danger"
                                 onClick={() => handleDeleteMember(member.id)}
                             >
-                              Remove
+                              {t('common.remove')}
                             </button>
                           </td>
                         </tr>
@@ -227,7 +207,7 @@ const Team = () => {
                 </div>
             ) : (
                 <div className="alert alert-info">
-                  No team members found.
+                  {t('teams.noMembers')}
                 </div>
             )}
           </div>
@@ -235,7 +215,7 @@ const Team = () => {
 
         <div className="mt-4">
           <Link to="/teams" className="btn btn-secondary">
-            Back to Teams
+            {t('teams.backToTeams')}
           </Link>
         </div>
       </div>

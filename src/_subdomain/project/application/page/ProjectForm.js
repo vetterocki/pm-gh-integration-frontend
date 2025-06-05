@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {projectService, teamMemberService, teamService} from '../../../../_common/application/service';
 import LoadingSpinner from '../../../../_common/application/page/LoadingSpinner';
 import useForm from '../../../../_common/useForm';
@@ -7,6 +8,7 @@ import useForm from '../../../../_common/useForm';
 const ProjectForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const isEditMode = !!id;
 
   const [loading, setLoading] = useState(isEditMode);
@@ -130,22 +132,22 @@ const ProjectForm = () => {
     const newErrors = {};
 
     if (!values.fullName.trim()) {
-      newErrors.fullName = 'Project name is required';
+      newErrors.fullName = t('validation.projectNameRequired');
       isValid = false;
     }
 
     if (!values.key.trim()) {
-      newErrors.key = 'Project key is required';
+      newErrors.key = t('validation.projectKeyRequired');
       isValid = false;
     }
 
     if (!values.teamName.trim()) {
-      newErrors.teamName = 'Team name is required';
+      newErrors.teamName = t('validation.teamNameRequired');
       isValid = false;
     }
 
     if (!values.projectOwnerName.trim()) {
-      newErrors.projectOwnerName = 'Project owner name is required';
+      newErrors.projectOwnerName = t('validation.projectOwnerRequired');
       isValid = false;
     }
 
@@ -198,11 +200,11 @@ const ProjectForm = () => {
 
   return (
       <div className="container mt-4">
-        <h1>{isEditMode ? 'Edit Project' : 'Create New Project'}</h1>
+        <h1>{isEditMode ? t('projects.editProject') : t('projects.createProject')}</h1>
         <form onSubmit={handleSubmit} className="mt-4" autoComplete="off">
           <div className="mb-3">
             <label htmlFor="fullName" className="form-label">
-              Project Name*
+              {t('projects.projectName')}*
             </label>
             <input
                 type="text"
@@ -218,7 +220,7 @@ const ProjectForm = () => {
 
           <div className="mb-3">
             <label htmlFor="key" className="form-label">
-              Project Key*
+              {t('projects.projectKey')}*
             </label>
             <input
                 type="text"
@@ -232,13 +234,13 @@ const ProjectForm = () => {
             />
             {errors.key && <div className="invalid-feedback">{errors.key}</div>}
             <small className="form-text text-muted">
-              A short identifier for your project (e.g., PROJ, ABC)
+              {t('projects.projectKeyHint')}
             </small>
           </div>
 
           <div className="mb-3 position-relative">
             <label htmlFor="teamName" className="form-label">
-              Team Name*
+              {t('projects.teamName')}*
             </label>
             <input
                 type="text"
@@ -272,7 +274,7 @@ const ProjectForm = () => {
 
           <div className="mb-3 position-relative">
             <label htmlFor="projectOwnerName" className="form-label">
-              Project Owner Name*
+              {t('projects.projectOwnerName')}*
             </label>
             <input
                 type="text"
@@ -309,7 +311,7 @@ const ProjectForm = () => {
               className="btn btn-primary"
               disabled={submitLoading}
           >
-            {submitLoading ? 'Saving...' : (isEditMode ? 'Update Project' : 'Create Project')}
+            {submitLoading ? t('common.saving') : (isEditMode ? t('projects.updateProject') : t('projects.createProject'))}
           </button>
         </form>
       </div>

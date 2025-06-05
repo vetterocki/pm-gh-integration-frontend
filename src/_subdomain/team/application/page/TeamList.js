@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {teamService} from '../../../../_common/application/service';
 import LoadingSpinner from '../../../../_common/application/page/LoadingSpinner';
 import '../../../../resources/styles/TeamList.css';
@@ -7,6 +8,7 @@ import '../../../../resources/styles/TeamList.css';
 const TeamList = () => {
   const [teams, setTeams] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
 
   useEffect(() => {
     loadData();
@@ -33,7 +35,7 @@ const TeamList = () => {
           </Link>
       );
     }
-    return <em className="placeholder-text">Not specified</em>;
+    return <em className="placeholder-text">{t('common.notSpecified')}</em>;
   };
 
   if (loading) {
@@ -45,25 +47,25 @@ const TeamList = () => {
         <div className="card w-100 mx-auto mt-4 shadow">
           <div className="team-card-header">
             <h2>
-              <i className="bi bi-people-fill"></i> Teams
+              <i className="bi bi-people-fill"></i> {t('teams.title')}
             </h2>
             <Link to="/teams/new" className="create-team-btn">
-              <i className="bi bi-plus-lg"></i> Create New Team
+              <i className="bi bi-plus-lg"></i> {t('teams.createNew')}
             </Link>
           </div>
           <div className="card-body">
             {teams.length === 0 ? (
                 <div className="alert alert-info alert-info-center">
-                  <i className="bi bi-info-circle"></i> No teams found.
+                  <i className="bi bi-info-circle"></i> {t('teams.noTeams')}
                 </div>
             ) : (
                 <div className="table-responsive">
                   <table className="table table-striped table-hover">
                     <thead>
                     <tr>
-                      <th>Name</th>
-                      <th>Project Manager</th>
-                      <th>Members</th>
+                      <th>{t('teams.name')}</th>
+                      <th>{t('teams.projectManager')}</th>
+                      <th>{t('teams.members')}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -71,7 +73,7 @@ const TeamList = () => {
                         <tr key={team.id}>
                           <td>
                             <Link to={`/teams/${team.id}`} className="team-link">
-                              {team.name || 'Unnamed Team'}
+                              {team.name || t('teams.unnamedTeam')}
                             </Link>
                           </td>
                           <td>{renderProjectManager(team)}</td>

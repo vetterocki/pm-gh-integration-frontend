@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {labelService, teamMemberService, ticketService} from '../../../../_common/application/service';
 import LoadingSpinner from '../../../../_common/application/page/LoadingSpinner';
 import useForm from '../../../../_common/useForm';
@@ -10,6 +11,7 @@ const priorities = ['LOW', 'MEDIUM', 'MAJOR', 'CRITICAL'];
 
 const TicketForm = () => {
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     const initialValues = {
         summary: '',
@@ -80,7 +82,7 @@ const TicketForm = () => {
         const newErrors = {};
 
         if (!values.summary.trim()) {
-            newErrors.summary = 'Summary is required';
+            newErrors.summary = t('validation.summaryRequired');
             isValid = false;
         }
 
@@ -125,10 +127,10 @@ const TicketForm = () => {
     if (loading) return <LoadingSpinner/>;
 
     return (<div className="container mt-4">
-            <h1 className="ticket-title-form">Create New Ticket</h1>
+            <h1 className="ticket-title-form">{t('tickets.createNew')}</h1>
             <form onSubmit={handleSubmit} className="mt-4">
                 <div className="mb-3">
-                    <label htmlFor="summary" className="form-label">Summary*</label>
+                    <label htmlFor="summary" className="form-label">{t('tickets.summary')}*</label>
                     <input
                         type="text"
                         className={`form-control ${errors.summary ? 'is-invalid' : ''}`}
@@ -142,7 +144,7 @@ const TicketForm = () => {
                 </div>
 
                 <div className="mb-3">
-                    <label htmlFor="description" className="form-label">Description</label>
+                    <label htmlFor="description" className="form-label">{t('tickets.description')}</label>
                     <textarea
                         className="form-control"
                         id="description"
@@ -155,7 +157,7 @@ const TicketForm = () => {
 
 
                 <div className="mb-3">
-                    <label htmlFor="priority" className="form-label">Priority</label>
+                    <label htmlFor="priority" className="form-label">{t('tickets.priority')}</label>
                     <select
                         className="form-select"
                         id="priority"
@@ -170,12 +172,12 @@ const TicketForm = () => {
 
                 {/* Labels multi-select */}
                 <div className="mb-3 position-relative">
-                    <label htmlFor="labelInput" className="form-label">Labels</label>
+                    <label htmlFor="labelInput" className="form-label">{t('tickets.labels')}</label>
                     <input
                         type="text"
                         className="form-control"
                         id="labelInput"
-                        placeholder="Type to search and add labels"
+                        placeholder={t('tickets.searchLabelsPlaceholder')}
                         onChange={handleLabelInputChange}
                         autoComplete="off"
                     />
@@ -224,18 +226,14 @@ const TicketForm = () => {
                         onClick={() => navigate('/tickets')}
                         disabled={submitLoading}
                     >
-                        Cancel
+                        {t('common.cancel')}
                     </button>
                     <button
                         type="submit"
                         className="btn btn-primary"
                         disabled={submitLoading}
                     >
-                        {submitLoading ? (<>
-                                <span className="spinner-border spinner-border-sm me-2" role="status"
-                                      aria-hidden="true"></span>
-                                Creating...
-                            </>) : ('Create Ticket')}
+                        {submitLoading ? t('common.saving') : t('tickets.createTicket')}
                     </button>
                 </div>
             </form>

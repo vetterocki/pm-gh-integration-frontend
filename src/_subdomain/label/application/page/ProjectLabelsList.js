@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
+import { useTranslation } from 'react-i18next';
 import {ChromePicker} from 'react-color';
 import ProjectLabel from '../../domain/ProjectLabel';
 import {labelService} from '../../../../_common/application/service';
 
 const LabelCreator = ({project, onLabelCreated}) => {
+    const { t } = useTranslation();
     const [name, setName] = useState('');
     const [color, setColor] = useState('#36b37e');
     const [description, setDescription] = useState('');
@@ -49,12 +51,12 @@ const LabelCreator = ({project, onLabelCreated}) => {
             }}
         >
             <h4 style={{margin: 0, alignSelf: 'flex-start', fontSize: 20, fontWeight: '600'}}>
-                Create New Label
+                {t('labels.createNew')}
             </h4>
 
             <input
                 type="text"
-                placeholder="Label name"
+                placeholder={t('labels.labelName')}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
@@ -94,7 +96,7 @@ const LabelCreator = ({project, onLabelCreated}) => {
             </div>
 
             <textarea
-                placeholder="Description (optional)"
+                placeholder={t('labels.descriptionOptional')}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={5}
@@ -129,7 +131,7 @@ const LabelCreator = ({project, onLabelCreated}) => {
                 onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#0056b3')}
                 onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#007bff')}
             >
-                Create Label
+                {t('labels.createLabel')}
             </button>
         </form>
     );
@@ -173,7 +175,6 @@ const ProjectLabelsList = ({labels: initialLabels = [], project}) => {
                 overflow: 'hidden',
             }}
         >
-            {/* Labels List */}
             <div
                 style={{
                     flex: 1,

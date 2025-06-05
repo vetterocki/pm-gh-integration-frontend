@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import { useTranslation } from 'react-i18next';
 import ticketService from '../application/service/ticketService';
 import '../../../resources/styles/TicketModal.css';
 import WorkflowRunsModal from '../../workflow-run/domain/WorkflowRunsModal';
@@ -15,6 +16,7 @@ const statusColors = {
 };
 
 const TicketModal = ({ticket, onClose, onAssignToggle, onDelete}) => {
+    const { t } = useTranslation();
     const [currentTicket, setCurrentTicket] = useState(ticket);
     const [reviewers, setReviewers] = useState([]);
     const [workflowModalOpen, setWorkflowModalOpen] = useState(false);
@@ -77,6 +79,9 @@ const TicketModal = ({ticket, onClose, onAssignToggle, onDelete}) => {
                         </h6>
                     </div>
                     <div className="header-right">
+                        <div className="created-at-text">
+                            {t('tickets.createdAt')}: {currentTicket.createdAt}
+                        </div>
                         <div className="ticket-status-badge" style={{color: statusColor, borderColor: statusColor}}>
                             {currentTicket.status}
                         </div>
@@ -108,7 +113,7 @@ const TicketModal = ({ticket, onClose, onAssignToggle, onDelete}) => {
                                                     }
                                                 }}
                                             >
-                                                Save
+                                                {t('common.save')}
                                             </button>
                                             <button
                                                 className="btn btn-sm btn-secondary"
@@ -117,21 +122,21 @@ const TicketModal = ({ticket, onClose, onAssignToggle, onDelete}) => {
                                                     setIsEditingTitle(false);
                                                 }}
                                             >
-                                                Cancel
+                                                {t('common.cancel')}
                                             </button>
                                         </div>
                                     </div>) : (<div
                                         className="editable-field"
                                         onClick={() => setIsEditingTitle(true)}
                                         style={{cursor: 'pointer', fontSize: '1.25rem', fontWeight: 'bold'}}
-                                        title="Click to edit title"
+                                        title={t('tickets.clickToEdit')}
                                     >
-                                        {editedTitle || 'Untitled Ticket'}
+                                        {editedTitle || t('tickets.untitledTicket')}
                                     </div>)}
                             </section>
 
                             <section className="mb-4">
-                                <h5>Description</h5>
+                                <h5>{t('tickets.description')}</h5>
                                 {isEditingDescription ? (<div>
                                         <textarea
                                             className="form-control ticket-description"
@@ -152,7 +157,7 @@ const TicketModal = ({ticket, onClose, onAssignToggle, onDelete}) => {
                                                     }
                                                 }}
                                             >
-                                                Save
+                                                {t('common.save')}
                                             </button>
                                             <button
                                                 className="btn btn-sm btn-secondary"
@@ -161,26 +166,26 @@ const TicketModal = ({ticket, onClose, onAssignToggle, onDelete}) => {
                                                     setIsEditingDescription(false);
                                                 }}
                                             >
-                                                Cancel
+                                                {t('common.cancel')}
                                             </button>
                                         </div>
                                     </div>) : (<div
                                         className="editable-field ticket-description"
                                         onClick={() => setIsEditingDescription(true)}
                                         style={{cursor: 'pointer', whiteSpace: 'pre-wrap', wordBreak: 'break-word'}}
-                                        title="Click to edit description"
+                                        title={t('tickets.clickToEdit')}
                                     >
-                                        {editedDescription || 'No description provided.'}
+                                        {editedDescription || t('tickets.noDescription')}
                                     </div>)}
                             </section>
 
                             <section className="mb-4">
-                                <h5>GitHub PR Body</h5>
-                                <p className="ticket-github-description">{currentTicket.githubDescription || 'No PR description.'}</p>
+                                <h5>{t('tickets.githubPRBody')}</h5>
+                                <p className="ticket-github-description">{currentTicket.githubDescription || t('tickets.noPRDescription')}</p>
                             </section>
 
                             <section className="mb-4">
-                                <h5>Linked Pull Requests</h5>
+                                <h5>{t('tickets.linkedPullRequests')}</h5>
                                 {prModalOpen && (<PullRequestsModal
                                         pullRequests={currentTicket.linkedPullRequests}
                                         onClose={() => setPrModalOpen(false)}
@@ -190,29 +195,29 @@ const TicketModal = ({ticket, onClose, onAssignToggle, onDelete}) => {
                                     onClick={() => setPrModalOpen(true)}
                                     disabled={!currentTicket.linkedPullRequests?.length}
                                 >
-                                    View All Pull Requests ({currentTicket.linkedPullRequests?.length || 0})
+                                    {t('tickets.viewAllPullRequests')} ({currentTicket.linkedPullRequests?.length || 0})
                                 </button>
                             </section>
 
                             <section className="mb-4">
-                                <h5>Linked Workflow Runs</h5>
+                                <h5>{t('tickets.linkedWorkflowRuns')}</h5>
                                 {lastWorkflowRun ? (<div>
-                                        <div className="d-block mb-1 fw-semibold">Latest Workflow Run</div>
+                                        <div className="d-block mb-1 fw-semibold">{t('tickets.latestWorkflowRun')}</div>
                                         <div className="mb-3 p-3 border rounded bg-light">
                                             <div>
-                                                Conclusion: <strong>{conclusionIcons[lastWorkflowRun.conclusion] || '❓'} {lastWorkflowRun.conclusion || 'unknown'}</strong>
+                                                {t('tickets.conclusion')}: <strong>{conclusionIcons[lastWorkflowRun.conclusion] || '❓'} {lastWorkflowRun.conclusion || t('tickets.unknown')}</strong>
                                             </div>
-                                            <div>By: {lastWorkflowRun.actor.name} (<em>{lastWorkflowRun.actor.login}</em>)
+                                            <div>{t('tickets.by')}: {lastWorkflowRun.actor.name} (<em>{lastWorkflowRun.actor.login}</em>)
                                             </div>
-                                            <div className="text-muted">Repo: {lastWorkflowRun.repositoryName}</div>
+                                            <div className="text-muted">{t('tickets.repo')}: {lastWorkflowRun.repositoryName}</div>
                                         </div>
-                                    </div>) : (<p>No workflow runs found.</p>)}
+                                    </div>) : (<p>{t('tickets.noWorkflowRuns')}</p>)}
                                 <button
                                     className="btn btn-outline-primary"
                                     onClick={() => setWorkflowModalOpen(true)}
                                     disabled={!currentTicket.linkedWorkflowRuns?.length}
                                 >
-                                    View All Workflow Runs ({currentTicket.linkedWorkflowRuns?.length || 0})
+                                    {t('tickets.viewAllWorkflowRuns')} ({currentTicket.linkedWorkflowRuns?.length || 0})
                                 </button>
                             </section>
 
@@ -225,7 +230,7 @@ const TicketModal = ({ticket, onClose, onAssignToggle, onDelete}) => {
                         <div className="col-md-5 d-flex flex-column justify-content-between" style={{height: '100%'}}>
                             <div>
                                 <section className="mb-4">
-                                    <h5>Labels</h5>
+                                    <h5>{t('tickets.labels')}</h5>
                                     {currentTicket.labels?.length > 0 ? (<div className="d-flex flex-wrap gap-2">
                                             {currentTicket.labels.map(label => (<span
                                                     key={label.id}
@@ -240,11 +245,11 @@ const TicketModal = ({ticket, onClose, onAssignToggle, onDelete}) => {
                                                 >
                                                     {label.name}
                                                 </span>))}
-                                        </div>) : (<p>No labels</p>)}
+                                        </div>) : (<p>{t('tickets.noLabels')}</p>)}
                                 </section>
 
                                 <section className="mb-4">
-                                    <h5>Assignee</h5>
+                                    <h5>{t('tickets.assignee')}</h5>
                                     <div className="text-center p-3 bg-light rounded">
                                         {currentTicket.assignee?.avatar && (
                                             <img src={currentTicket.assignee.avatar} alt="Assignee"
@@ -272,13 +277,13 @@ const TicketModal = ({ticket, onClose, onAssignToggle, onDelete}) => {
                                                 }
                                             }}
                                         >
-                                            {currentTicket.assignee ? 'Unassign' : 'Assign to me'}
+                                            {currentTicket.assignee ? t('tickets.unassign') : t('tickets.assignToMe')}
                                         </button>
                                     </div>
                                 </section>
 
                                 <section className="mb-4">
-                                    <h5>Reporter</h5>
+                                    <h5>{t('tickets.reporter')}</h5>
                                     <div className="text-center p-3 bg-light rounded">
                                         {currentTicket.reporter?.avatar && (
                                             <img src={currentTicket.reporter.avatar} alt="Reporter"
@@ -288,7 +293,7 @@ const TicketModal = ({ticket, onClose, onAssignToggle, onDelete}) => {
                                 </section>
 
                                 <section className="mb-4">
-                                    <h5>Reviewers</h5>
+                                    <h5>{t('tickets.reviewers')}</h5>
                                     {reviewers.length > 0 ? (<div className="d-flex flex-column gap-2">
                                             {reviewers.map((r) => (<div key={r.id}
                                                                         className="d-flex align-items-center gap-3 bg-light p-2 rounded">
@@ -300,13 +305,13 @@ const TicketModal = ({ticket, onClose, onAssignToggle, onDelete}) => {
                                                         <div className="text-muted">@{r.loginInGithub}</div>
                                                     </div>
                                                 </div>))}
-                                        </div>) : (<p>No reviewers</p>)}
+                                        </div>) : (<p>{t('tickets.noReviewers')}</p>)}
                                 </section>
                             </div>
 
                             <div className="d-flex justify-content-end align-items-center">
-                                <div className="created-at-text text-end">
-                                    Created at: {currentTicket.createdAt}
+                                <div className="created-at-button text-end">
+                                    {/*{t('tickets.createdAt')}: {currentTicket.createdAt}*/}
                                     {onDelete && (<button
                                             className="btn btn-danger btn-sm ms-2"
                                             onClick={(e) => {
@@ -314,9 +319,9 @@ const TicketModal = ({ticket, onClose, onAssignToggle, onDelete}) => {
                                                 onDelete();
                                             }}
                                             aria-label="Delete"
-                                            title="Delete Ticket"
+                                            title={t('tickets.deleteTicket')}
                                         >
-                                            Delete
+                                            {t('common.delete')}
                                         </button>)}
                                 </div>
                             </div>

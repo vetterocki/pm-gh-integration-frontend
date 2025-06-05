@@ -32,6 +32,11 @@
 }
 
 .created-at-text {
+    font-size: 0.85rem;
+    color: #6c757d; /* muted text */
+}
+
+.created-at-button {
     position: absolute;
     bottom: 1rem;
     right: 1rem;

@@ -1,12 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import authService from '../service/authService';
 import logo from '../../../resources/static/project-management.png';
+import LanguageToggle from './LanguageToggle';
 import "../../../resources/styles/App.css";
 
 const Navbar = () => {
     const [currentUser, setCurrentUser] = useState(null);
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     useEffect(() => {
         const user = authService.getCurrentUser();
@@ -34,7 +37,7 @@ const Navbar = () => {
                         }}
                         className="me-2"
                     />
-                    <span className="fw-bold">TeamPulse</span>
+                    <span className="fw-bold">{t('app.title')}</span>
                 </Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span className="navbar-toggler-icon"></span>
@@ -42,14 +45,17 @@ const Navbar = () => {
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <Link className="nav-link nav-link-custom" to="/projects">Projects</Link>
+                            <Link className="nav-link nav-link-custom" to="/projects">{t('navigation.projects')}</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link nav-link-custom" to="/teams">Teams</Link>
+                            <Link className="nav-link nav-link-custom" to="/teams">{t('navigation.teams')}</Link>
                         </li>
                     </ul>
                 </div>
-                <ul className="navbar-nav ms-auto">
+                <ul className="navbar-nav ms-auto d-flex align-items-center">
+                    <li className="nav-item d-flex align-items-center me-3">
+                        <LanguageToggle />
+                    </li>
                     {currentUser ? (
                         <>
                             <li className="nav-item d-flex align-items-center text-white px-3">
@@ -65,14 +71,14 @@ const Navbar = () => {
                                     {currentUser.firstName + ' ' + currentUser.lastName}
                                    </span>
                             </li>
-                            <li className="nav-item">
-                                <button className="btn btn-outline-light btn-sm" onClick={handleLogout}>Sign Out
+                            <li className="nav-item d-flex align-items-center">
+                                <button className="btn btn-outline-light btn-sm" onClick={handleLogout}>{t('navigation.signOut')}
                                 </button>
                             </li>
                         </>
                     ) : (
-                        <li className="nav-item">
-                            <Link className="nav-link nav-link-custom" to="/auth/signin">Sign In</Link>
+                        <li className="nav-item d-flex align-items-center">
+                            <Link className="nav-link nav-link-custom" to="/auth/signin">{t('navigation.signIn')}</Link>
                         </li>
                     )}
                 </ul>

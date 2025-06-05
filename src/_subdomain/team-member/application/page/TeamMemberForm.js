@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {teamMemberService, teamService} from '../../../../_common/application/service';
 import LoadingSpinner from '../../../../_common/application/page/LoadingSpinner';
 import useForm from '../../../../_common/useForm';
@@ -10,6 +11,7 @@ const TeamMemberForm = () => {
     const {id} = useParams();
     const location = useLocation();
     const navigate = useNavigate();
+    const { t } = useTranslation();
     const isEditMode = !!id;
 
     const searchParams = new URLSearchParams(location.search);
@@ -81,30 +83,30 @@ const TeamMemberForm = () => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
         if (!values.firstName.trim()) {
-            newErrors.firstName = 'First name is required';
+            newErrors.firstName = t('validation.firstNameRequired');
             isValid = false;
         }
 
         if (!values.lastName.trim()) {
-            newErrors.lastName = 'Last name is required';
+            newErrors.lastName = t('validation.lastNameRequired');
             isValid = false;
         }
 
         if (!values.email.trim()) {
-            newErrors.email = 'Email is required';
+            newErrors.email = t('validation.emailRequired');
             isValid = false;
         } else if (!emailRegex.test(values.email)) {
-            newErrors.email = 'Please enter a valid email';
+            newErrors.email = t('validation.emailInvalid');
             isValid = false;
         }
 
         if (!values.position.trim()) {
-            newErrors.position = 'Position is required';
+            newErrors.position = t('validation.positionRequired');
             isValid = false;
         }
 
         if (!values.teamId) {
-            newErrors.teamId = 'Team is required';
+            newErrors.teamId = t('validation.teamRequired');
             isValid = false;
         }
 
@@ -168,11 +170,11 @@ const TeamMemberForm = () => {
 
     return (
         <div className="team-member-form-container mt-4">
-            <h1>{isEditMode ? 'Edit Team Member' : 'Create New Team Member'}</h1>
+            <h1>{isEditMode ? t('teamMembers.editMember') : t('teamMembers.createMember')}</h1>
             <form onSubmit={handleSubmit} className="team-member-form mt-4">
                 <div className="row">
                     <div className="col-md-6 mb-3">
-                        <label htmlFor="firstName" className="form-label">First Name*</label>
+                        <label htmlFor="firstName" className="form-label">{t('firstName')}</label>
                         <input
                             type="text"
                             className={`form-control ${errors.firstName ? 'is-invalid' : ''}`}
@@ -186,7 +188,7 @@ const TeamMemberForm = () => {
                     </div>
 
                     <div className="col-md-6 mb-3">
-                        <label htmlFor="lastName" className="form-label">Last Name*</label>
+                        <label htmlFor="lastName" className="form-label">{t('lastName')}</label>
                         <input
                             type="text"
                             className={`form-control ${errors.lastName ? 'is-invalid' : ''}`}
@@ -201,7 +203,7 @@ const TeamMemberForm = () => {
                 </div>
 
                 <div className="mb-3">
-                    <label htmlFor="email" className="form-label">Email*</label>
+                    <label htmlFor="email" className="form-label">{t('email')}</label>
                     <input
                         type="email"
                         className={`form-control ${errors.email ? 'is-invalid' : ''}`}
@@ -215,7 +217,7 @@ const TeamMemberForm = () => {
                 </div>
 
                 <div className="mb-3">
-                    <label htmlFor="loginInGithub" className="form-label">Login in Github</label>
+                    <label htmlFor="loginInGithub" className="form-label">{t('loginInGithub')}</label>
                     <input
                         type="text"
                         className={`form-control ${errors.loginInGithub ? 'is-invalid' : ''}`}
@@ -228,7 +230,7 @@ const TeamMemberForm = () => {
                 </div>
 
                 <div className="mb-3">
-                    <label htmlFor="position" className="form-label">Position*</label>
+                    <label htmlFor="position" className="form-label">{t('position')}</label>
                     <input
                         type="text"
                         className={`form-control ${errors.position ? 'is-invalid' : ''}`}
@@ -243,7 +245,7 @@ const TeamMemberForm = () => {
                 </div>
 
                 <div className="mb-3">
-                    <label htmlFor="teamId" className="form-label">Team*</label>
+                    <label htmlFor="teamId" className="form-label">{t('team')}</label>
                     <select
                         className={`form-select ${errors.teamId ? 'is-invalid' : ''}`}
                         id="teamId"
@@ -252,7 +254,7 @@ const TeamMemberForm = () => {
                         onChange={handleChange}
                         required
                     >
-                        <option value="">Select a team</option>
+                        <option value="">{t('selectATeam')}</option>
                         {teams.map(team => (
                             <option key={team.id} value={team.id}>
                                 {team.name}
@@ -265,7 +267,7 @@ const TeamMemberForm = () => {
                 {isEditMode && (
                     <>
                         <div className="mb-3">
-                            <label htmlFor="avatarUrl" className="form-label">Avatar URL</label>
+                            <label htmlFor="avatarUrl" className="form-label">{t('avatarUrl')}</label>
                             <input
                                 type="url"
                                 className="form-control"
@@ -280,7 +282,7 @@ const TeamMemberForm = () => {
                         <div className="row mb-3">
                             {values.avatarUrl && isValidUrl(values.avatarUrl) && (
                                 <div className="col-md-6 d-flex flex-column align-items-start avatar-preview-wrapper">
-                                    <label className="form-label mb-2">Avatar Preview:</label>
+                                    <label className="form-label mb-2">{t('avatarPreview')}:</label>
                                     <img
                                         src={values.avatarUrl}
                                         alt="Avatar preview"
@@ -299,7 +301,7 @@ const TeamMemberForm = () => {
                         onClick={() => navigate(`/teams/${teamIdFromQuery || ''}`)}
                         disabled={submitLoading}
                     >
-                        Cancel
+                        {t('cancel')}
                     </button>
                     <button
                         type="submit"
@@ -310,10 +312,10 @@ const TeamMemberForm = () => {
                             <>
                                 <span className="spinner-border spinner-border-sm me-2" role="status"
                                       aria-hidden="true"></span>
-                                {isEditMode ? 'Updating...' : 'Creating...'}
+                                {isEditMode ? t('updating') : t('creating')}
                             </>
                         ) : (
-                            isEditMode ? 'Update Team Member' : 'Create Team Member'
+                            isEditMode ? t('updateTeamMember') : t('createTeamMember')
                         )}
                     </button>
                 </div>

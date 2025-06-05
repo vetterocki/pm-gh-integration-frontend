@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {teamMemberService, teamService} from '../../../../_common/application/service';
 import LoadingSpinner from '../../../../_common/application/page/LoadingSpinner';
 import useForm from '../../../../_common/useForm';
@@ -8,6 +9,7 @@ import "../../../../resources/styles/TeamForm.css";
 const TeamForm = () => {
     const { id } = useParams();
     const navigate = useNavigate();
+    const { t } = useTranslation();
     const isEditMode = !!id;
 
     const [loading, setLoading] = useState(isEditMode);
@@ -103,7 +105,7 @@ const TeamForm = () => {
         const newErrors = {};
 
         if (!values.name.trim()) {
-            newErrors.name = 'Team name is required';
+            newErrors.name = t('validation.teamNameRequired');
             isValid = false;
         }
 
@@ -155,11 +157,11 @@ const TeamForm = () => {
 
     return (
         <div className="container mt-4">
-            <h1 className="team-title">{isEditMode ? 'Edit Team' : 'Create New Team'}</h1>
+            <h1 className="team-title">{isEditMode ? t('teams.editTeam') : t('teams.createTeam')}</h1>
 
             <form onSubmit={handleSubmit} className="mt-4">
                 <div className="mb-3">
-                    <label htmlFor="name" className="form-label">Team Name*</label>
+                    <label htmlFor="name" className="form-label">{t('teams.teamName')}*</label>
                     <input
                         type="text"
                         className={`form-control ${errors.name ? 'is-invalid' : ''}`}
@@ -173,7 +175,7 @@ const TeamForm = () => {
                 </div>
 
                 <div className="mb-3 position-relative">
-                    <label htmlFor="projectManagerName" className="form-label">Project Manager</label>
+                    <label htmlFor="projectManagerName" className="form-label">{t('teams.projectManager')}</label>
                     <input
                         type="text"
                         className={`form-control ${errors.projectManagerName ? 'is-invalid' : ''}`}
@@ -181,7 +183,7 @@ const TeamForm = () => {
                         name="projectManagerName"
                         value={values.projectManagerName}
                         onChange={handleManagerInputChange}
-                        placeholder="Enter project manager's full name"
+                        placeholder={t('teamMembers.enterProjectManagerName')}
                         autoComplete="off"
                     />
                     {errors.projectManagerName && <div className="invalid-feedback">{errors.projectManagerName}</div>}

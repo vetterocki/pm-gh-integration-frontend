@@ -1,5 +1,6 @@
 import React from 'react';
 import {BrowserRouter as Router, Navigate, Route, Routes} from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from './_common/application/page/Navbar';
 import logo from './resources/static/project-management.png'
@@ -19,53 +20,59 @@ import TicketForm from "./_subdomain/ticket/application/page/TicketForm";
 import SignIn from "./_common/application/page/SignIn";
 import {ToastContainer} from "react-toastify";
 
-const Home = () => (
-    <div className="container mt-5">
-        <div className="text-center mb-5">
-            <img src={logo} alt="Logo" style={{width: '80px'}}/>
-            <h1 className="display-4 mt-3">TeamPulse</h1>
-            <p className="lead">Streamline your project management with GitHub-driven collaboration.</p>
-        </div>
+const Home = () => {
+    const { t } = useTranslation();
+    
+    return (
+        <div className="container mt-5">
+            <div className="text-center mb-5">
+                <img src={logo} alt="Logo" style={{width: '80px'}}/>
+                <h1 className="display-4 mt-3">{t('app.title')}</h1>
+                <p className="lead">{t('app.subtitle')}</p>
+            </div>
 
-        <div className="row">
-            <div className="col-md-6">
-                <div className="card shadow-sm border-0 mb-4">
-                    <div className="card-body">
-                        <h5 className="card-title">Projects</h5>
-                        <p className="card-text">Create, edit, and track projects with full GitHub integration for
-                            commits, issues, and more.</p>
-                        <a href="/projects" className="btn text-white" style={{backgroundColor: '#6f42c1'}}>
-                            Go to Projects
-                        </a>
+            <div className="row">
+                <div className="col-md-6">
+                    <div className="card shadow-sm border-0 mb-4">
+                        <div className="card-body">
+                            <h5 className="card-title">{t('home.projectsTitle')}</h5>
+                            <p className="card-text">{t('home.projectsDescription')}</p>
+                            <a href="/projects" className="btn text-white" style={{backgroundColor: '#6f42c1'}}>
+                                {t('home.goToProjects')}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-md-6">
+                    <div className="card shadow-sm border-0 mb-4">
+                        <div className="card-body">
+                            <h5 className="card-title">{t('home.teamsTitle')}</h5>
+                            <p className="card-text">{t('home.teamsDescription')}</p>
+                            <a href="/teams" className="btn btn-success">{t('home.goToTeams')}</a>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div className="col-md-6">
-                <div className="card shadow-sm border-0 mb-4">
-                    <div className="card-body">
-                        <h5 className="card-title">Teams</h5>
-                        <p className="card-text">Organize and manage your teams and members. Assign roles and
-                            collaborate efficiently.</p>
-                        <a href="/teams" className="btn btn-success">Go to Teams</a>
-                    </div>
-                </div>
+        </div>
+    );
+};
+
+const NotFound = () => {
+    const { t } = useTranslation();
+    
+    return (
+        <div className="container mt-4">
+            <div className="alert alert-danger">
+                <h4 className="alert-heading">{t('errors.pageNotFound')}</h4>
+                <p>{t('errors.pageNotFoundMessage')}</p>
+                <hr/>
+                <p className="mb-0">
+                    <a href="/" className="alert-link">{t('errors.goBackHome')}</a>
+                </p>
             </div>
         </div>
-    </div>
-);
-
-const NotFound = () => (
-    <div className="container mt-4">
-        <div className="alert alert-danger">
-            <h4 className="alert-heading">Page Not Found</h4>
-            <p>The page you are looking for does not exist.</p>
-            <hr/>
-            <p className="mb-0">
-                <a href="/" className="alert-link">Go back to home page</a>
-            </p>
-        </div>
-    </div>
-);
+    );
+};
 
 function App() {
     return (

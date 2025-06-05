@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Link, useNavigate, useParams} from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import {projectBoardService, projectService, ticketService} from '../../../_common/application/service';
 import LoadingSpinner from '../../../_common/application/page/LoadingSpinner';
@@ -19,6 +20,7 @@ import TicketModal from "../../ticket/domain/TicketModal";
 const Project = () => {
     const {id} = useParams();
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     const [project, setProject] = useState(null);
     const [boards, setBoards] = useState([]);
@@ -44,7 +46,7 @@ const Project = () => {
     const handleDeleteBoard = async () => {
         if (!selectedBoard) return;
 
-        if (window.confirm(`Are you sure you want to delete the board "${selectedBoard.name}"?`)) {
+        if (window.confirm(t('boards.deleteBoardConfirm', { boardName: selectedBoard.name }))) {
             try {
                 await projectBoardService.deleteProjectBoard(selectedBoard.id);
 
@@ -133,20 +135,19 @@ const Project = () => {
     const filteredTickets = filterTicketsByText(tickets, filterText);
 
     const handleDelete = async () => {
-        if (window.confirm('Are you sure you want to delete this project?')) {
+        if (window.confirm(t('projects.deleteConfirm'))) {
             try {
                 await projectService.deleteProject(id);
                 navigate('/projects/');
             } catch (err) {
                 console.error(err);
                 console.warn(err.status)
-
             }
         }
     };
 
     const handleDeleteTicket = async (ticketId) => {
-        if (window.confirm('Are you sure you want to delete this ticket?')) {
+        if (window.confirm(t('tickets.deleteConfirm'))) {
             try {
                 await ticketService.deleteTicket(ticketId);
                 navigate(`/projects/${project.id}`);
@@ -166,7 +167,7 @@ const Project = () => {
         return (
             <div className="container mt-4">
                 <div className="alert alert-warning">
-                    Project not found. <Link to="/projects">Back to projects</Link>
+                    {t('projects.projectNotFound')} <Link to="/projects">{t('projects.backToProjects')}</Link>
                 </div>
             </div>
         );
@@ -208,12 +209,12 @@ const Project = () => {
                     {selectedMenu === 'boards' && (
                         <>
                             <div className="board-header">
-                                <h2 className="board-title">{selectedBoard ? selectedBoard.name : 'Board'}</h2>
+                                <h2 className="board-title">{selectedBoard ? selectedBoard.name : t('sidebar.boards')}</h2>
                                 <div className="board-controls">
                                     <div className="board-filter" style={{maxWidth: 300}}>
                                         <input
                                             type="text"
-                                            placeholder="Filter tickets..."
+                                            placeholder={t('project.filterTicketsPlaceholder')}
                                             className="form-control"
                                             value={filterText}
                                             onChange={handleFilterChange}
@@ -224,21 +225,21 @@ const Project = () => {
                                             className={`btn btn-outline-secondary ${viewMode === 'board' ? 'active' : ''}`}
                                             onClick={() => setViewMode('board')}
                                         >
-                                            <i className="bi bi-kanban"></i> Board
+                                            <i className="bi bi-kanban"></i> {t('project.boardView')}
                                         </button>
                                         <button
                                             className={`btn btn-outline-secondary ${viewMode === 'list' ? 'active' : ''}`}
                                             onClick={() => setViewMode('list')}
                                         >
-                                            <i className="bi bi-list"></i> List
+                                            <i className="bi bi-list"></i> {t('project.listView')}
                                         </button>
                                         <button
                                             className="btn btn-outline-danger"
                                             onClick={handleDeleteBoard}
                                             disabled={!selectedBoard}
-                                            title={selectedBoard ? `Delete board: ${selectedBoard.name}` : "No board selected"}
+                                            title={selectedBoard ? t('boards.deleteBoardConfirm', { boardName: selectedBoard.name }) : t('project.noBoardSelected')}
                                         >
-                                            <i className="bi bi-trash"></i> Delete Board
+                                            <i className="bi bi-trash"></i> {t('boards.deleteBoard')}
                                         </button>
                                     </div>
                                 </div>
@@ -269,11 +270,11 @@ const Project = () => {
                     {selectedMenu === 'backlog' && (
                         <>
                             <div className="board-header">
-                                <h2 className="board-title">Backlog</h2>
+                                <h2 className="board-title">{t('sidebar.backlog')}</h2>
                                 <div className="board-filter" style={{maxWidth: 300}}>
                                     <input
                                         type="text"
-                                        placeholder="Filter tickets..."
+                                        placeholder={t('project.filterTicketsPlaceholder')}
                                         className="form-control"
                                         value={filterText}
                                         onChange={handleFilterChange}
@@ -287,7 +288,7 @@ const Project = () => {
                     {selectedMenu === 'labels' && (
                         <>
                             <div className="board-header">
-                                <h2 className="board-title">Labels</h2>
+                                <h2 className="board-title">{t('sidebar.labels')}</h2>
                             </div>
                             <ProjectLabelsList labels={labels || []} filterText={filterText} project={project} setSelectedMenu={setSelectedMenu} />
                         </>
